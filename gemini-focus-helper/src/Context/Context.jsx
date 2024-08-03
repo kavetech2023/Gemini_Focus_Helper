@@ -8,10 +8,12 @@ const ContextProvider = (props) => {
 
     const [input, setInput] = useState('');
     const [recentPrompt, setRecentPrompt] = useState("");
+    const [previousResults, setPreviousResults] = useState([]); 
     const [previousPrompts, setPreviousPrompts] = useState([]);
     const [showResults, setShowResults] = useState(false);
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState("");
+    
 
     
     const delayParameter = (index, nextWord) =>{
@@ -29,7 +31,12 @@ const ContextProvider = (props) => {
        setResults("") 
        setLoading(true);
        setShowResults(true);
-       let response;
+
+       const combinedPrompt = [...previousPrompts, prompt].join("\n");
+
+
+       let response = await run(combinedPrompt);
+  setRecentPrompt(combinedPrompt);
        if (prompt !== undefined){
             response = await run(prompt);
             setRecentPrompt(prompt);
@@ -50,11 +57,11 @@ const ContextProvider = (props) => {
                newResponse += responseArray[i];
            }else{
             //if the element is odd, add bold tags to it and add it to the newResponse string
-                newResponse += "<b>" + "<a href=''>" +responseArray[i]+"</a>" + "</b>";
+                newResponse += "</br> "+"<b>" +  responseArray[i] + "</b>";
            }
        }
          //split the newResponse string into an array
-       let newResponse2 = newResponse.split("*").join("</br></br>");
+       let newResponse2 = newResponse.split("*").join("</br>");
        let newResponseArray = newResponse2.split(" ");
 
        for(let i = 0; i < newResponseArray.length; i++)
@@ -63,7 +70,7 @@ const ContextProvider = (props) => {
             delayParameter(i, " "+nextWord+" ");
        }
 
-       //setResults(newResponse2);
+       
        setLoading(false);
        setInput("");
     }
