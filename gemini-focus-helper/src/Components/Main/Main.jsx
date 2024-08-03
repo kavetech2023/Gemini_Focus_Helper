@@ -75,7 +75,9 @@ const Main = () => {
                     <div>
                         <span><MdAddAPhoto /></span>
                         <span><CiMicrophoneOn /></span>
-                        <span onClick={()=>onSend()}><IoMdSend /></span>
+                      {input?
+                      <span onClick={()=>onSend()}><IoMdSend /></span>
+                    :null} 
                     </div>
                 </div>
                 <p className="bottom-info">This app may display inaccurate info from time to time. Please do not be alarmed.</p>
