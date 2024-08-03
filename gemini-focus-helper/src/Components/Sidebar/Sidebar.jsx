@@ -10,10 +10,11 @@ import { Context } from "../../Context/Context";
 
 const Sidebar = () => {
   const [extendIt, setExtendIt] = useState(false);
-  const {onSend,previousPrompts, setRecentPrompts} = useContext(Context);
+  const {onSend,previousPrompts, setRecentPrompt, newChat} = useContext(Context);
+
 
   const loadPrompt = async (prompt) => {
-    setRecentPrompts(prompt)
+    setRecentPrompt(prompt)
     await onSend(prompt);
   }
   return (
@@ -22,7 +23,7 @@ const Sidebar = () => {
         <span onClick={()=>setExtendIt(prev=>!prev)} className="menu">
           <CiMenuBurger />
         </span>
-        <div className="new-chat">
+        <div onClick={()=>newChat()}className="new-chat">
           <span>
             <FaPlus />
           </span>

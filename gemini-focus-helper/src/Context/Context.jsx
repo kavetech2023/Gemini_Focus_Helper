@@ -13,27 +13,43 @@ const ContextProvider = (props) => {
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState("");
 
+    
     const delayParameter = (index, nextWord) =>{
         setTimeout(() => {
             setResults(prev => prev + nextWord);
         }, 75*index);
     }
 
+    const newChat = () => {
+        setLoading(false);
+        setShowResults(false);
+    }
+
     const onSend = async (prompt) => {
        setResults("") 
        setLoading(true);
        setShowResults(true);
-       setRecentPrompt(input);
-       setPreviousPrompts(prev => [...prev, input]);
-       //get the response from the model
-       const response = await run(input);
-       //split the response into an array
+       let response;
+       if (prompt !== undefined){
+            response = await run(prompt);
+            setRecentPrompt(prompt);
+       }else{
+        setPreviousPrompts(prev => [...prev, input]);
+        setRecentPrompt(input);
+        response = await run(input);
+       }
+       
+       
+       //split the response from Ai-model into an array
        let responseArray = response.split("**");
        let newResponse ="";
+       // loop over the already split array and add bold tags to every other element
        for(let i = 0; i < responseArray.length; i++){
            if(i === 0 || i % 2 !== 1){
+            //if the element is not odd, add it to the newResponse string
                newResponse += responseArray[i];
            }else{
+            //if the element is odd, add bold tags to it and add it to the newResponse string
                 newResponse += "<b>" + responseArray[i] + "</b>";
            }
        }
@@ -62,7 +78,8 @@ const ContextProvider = (props) => {
         loading,
         results,
         input,
-        setInput
+        setInput,
+        newChat
     }
     return(
         <Context.Provider value={contextValue}>
