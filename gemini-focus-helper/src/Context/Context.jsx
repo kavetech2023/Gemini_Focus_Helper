@@ -50,16 +50,17 @@ const ContextProvider = (props) => {
                newResponse += responseArray[i];
            }else{
             //if the element is odd, add bold tags to it and add it to the newResponse string
-                newResponse += "<b>" + responseArray[i] + "</b>";
+                newResponse += "<b>" + "<a href=''>" +responseArray[i]+"</a>" + "</b>";
            }
        }
-       let newResponse2 = newResponse.split("*").join("</br>");
+         //split the newResponse string into an array
+       let newResponse2 = newResponse.split("*").join("</br></br>");
        let newResponseArray = newResponse2.split(" ");
 
        for(let i = 0; i < newResponseArray.length; i++)
         {
             const nextWord = newResponseArray[i];
-            delayParameter(i, nextWord+" ");
+            delayParameter(i, " "+nextWord+" ");
        }
 
        //setResults(newResponse2);
