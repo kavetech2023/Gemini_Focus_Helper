@@ -49,6 +49,7 @@ const Main = () => {
                 </div>
             </div>
             </>:
+            //if showResults is true, render the following div
             <div className='results'>
                     <div className='result-title'>
                         <span><FaUser /></span>
